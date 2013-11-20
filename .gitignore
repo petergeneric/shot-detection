@@ -11,4 +11,7 @@ META-INF/
 *.iml
 atlassian-ide-plugin.xml
 
+*.ppm
 *.mp4
+*.png
+*.csv

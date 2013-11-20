@@ -1,19 +1,18 @@
 package com.peterphi.ffmpegtest.ffmpeg;
 
+import com.peterphi.ffmpegtest.parser.FFmpegPPMParser;
 import com.peterphi.ffmpegtest.plugins.VideoAnalysisPlugin;
 import com.peterphi.std.util.HexHelper;
 import org.apache.commons.imaging.ImageReadException;
-import org.apache.commons.imaging.common.bytesource.ByteSourceInputStream;
-import org.apache.commons.imaging.formats.pnm.PnmImageParser;
 
 import java.awt.image.BufferedImage;
+import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOError;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.DigestInputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class FFmpegEngine
@@ -73,13 +72,13 @@ public class FFmpegEngine
 	}
 
 
-	private static final PnmImageParser PPM_PARSER = new PnmImageParser();
+	private static final FFmpegPPMParser PPM_PARSER = new FFmpegPPMParser();
 
 
 	private BufferedImage parse(InputStream is) throws IOException, ImageReadException
 	{
 		// peek to see if we're at EOF
-		// Otherwise we'll get an exception from getBufferedImage
+		// Otherwise we'll get an exception when reading the stream
 		is.mark(1);
 
 		final int read = is.read();
@@ -91,7 +90,7 @@ public class FFmpegEngine
 		{
 			is.reset();
 
-			return PPM_PARSER.getBufferedImage(new ByteSourceInputStream(is, null), new HashMap<String, Object>());
+			return PPM_PARSER.parse(new DataInputStream(is)).toImage();
 		}
 	}
 
