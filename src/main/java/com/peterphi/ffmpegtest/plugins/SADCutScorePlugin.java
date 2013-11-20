@@ -1,6 +1,7 @@
 package com.peterphi.ffmpegtest.plugins;
 
-import java.awt.image.BufferedImage;
+import com.peterphi.ffmpegtest.parser.VideoFrame;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,7 +13,7 @@ import java.io.PrintWriter;
  */
 public class SADCutScorePlugin implements VideoAnalysisPlugin
 {
-	private BufferedImage last;
+	private VideoFrame last;
 	private PrintWriter csvFile;
 
 
@@ -36,7 +37,7 @@ public class SADCutScorePlugin implements VideoAnalysisPlugin
 
 
 	@Override
-	public void frame(final int frame, final BufferedImage image)
+	public void frame(final int frame, final VideoFrame image)
 	{
 		final long start = System.currentTimeMillis();
 		long score = score(last, image);
@@ -66,19 +67,22 @@ public class SADCutScorePlugin implements VideoAnalysisPlugin
 	 *
 	 * @return
 	 */
-	private final long score(final BufferedImage a, final BufferedImage b)
+	private final long score(final VideoFrame a, final VideoFrame b)
 	{
 		if (a == null || b == null)
 			return Long.MAX_VALUE;
 
 		long score = 0;
 
-		for (int x = 0; x < a.getWidth(); x++)
+		final short[] aPixel = new short[3];
+		final short[] bPixel = new short[3];
+
+		for (int x = 0; x < a.getHeight(); x++)
 		{
-			for (int y = 0; y < a.getHeight(); y++)
+			for (int y = 0; y < a.getWidth(); y++)
 			{
-				final int aPixel = a.getRGB(x, y);
-				final int bPixel = b.getRGB(x, y);
+				a.getRGB(aPixel, x, y);
+				b.getRGB(bPixel, x, y);
 
 				final int delta = score(aPixel, bPixel);
 
@@ -86,6 +90,12 @@ public class SADCutScorePlugin implements VideoAnalysisPlugin
 			}
 		}
 		return score;
+	}
+
+
+	private final int score(final short[] a, final short[] b)
+	{
+		return Math.abs(a[0] - b[0]) + Math.abs(a[1] - b[1]) + Math.abs(a[2] - b[2]);
 	}
 
 

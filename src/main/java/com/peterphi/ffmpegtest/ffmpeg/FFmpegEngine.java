@@ -1,11 +1,11 @@
 package com.peterphi.ffmpegtest.ffmpeg;
 
 import com.peterphi.ffmpegtest.parser.FFmpegPPMParser;
+import com.peterphi.ffmpegtest.parser.VideoFrame;
 import com.peterphi.ffmpegtest.plugins.VideoAnalysisPlugin;
 import com.peterphi.std.util.HexHelper;
 import org.apache.commons.imaging.ImageReadException;
 
-import java.awt.image.BufferedImage;
 import java.io.DataInputStream;
 import java.io.File;
 import java.io.IOError;
@@ -75,7 +75,7 @@ public class FFmpegEngine
 	private static final FFmpegPPMParser PPM_PARSER = new FFmpegPPMParser();
 
 
-	private BufferedImage parse(InputStream is) throws IOException, ImageReadException
+	private VideoFrame parse(InputStream is) throws IOException, ImageReadException
 	{
 		// peek to see if we're at EOF
 		// Otherwise we'll get an exception when reading the stream
@@ -90,7 +90,7 @@ public class FFmpegEngine
 		{
 			is.reset();
 
-			return PPM_PARSER.parse(new DataInputStream(is)).toImage();
+			return PPM_PARSER.parse(new DataInputStream(is));
 		}
 	}
 
@@ -104,7 +104,7 @@ public class FFmpegEngine
 
 		for (int frame = 0; ; frame++)
 		{
-			final BufferedImage img = parse(is);
+			final VideoFrame img = parse(is);
 
 			if (img != null)
 				plugin.frame(frame, img);

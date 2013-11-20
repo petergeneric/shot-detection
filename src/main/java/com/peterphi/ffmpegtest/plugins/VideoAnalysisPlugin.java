@@ -1,6 +1,6 @@
 package com.peterphi.ffmpegtest.plugins;
 
-import java.awt.image.BufferedImage;
+import com.peterphi.ffmpegtest.parser.VideoFrame;
 
 public interface VideoAnalysisPlugin
 {
@@ -14,7 +14,7 @@ public interface VideoAnalysisPlugin
 	 * @param image
 	 * 		the frame image
 	 */
-	public void frame(int frame, BufferedImage image);
+	public void frame(int frame, VideoFrame image);
 
 	public void end();
 }
