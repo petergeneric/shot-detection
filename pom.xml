@@ -37,6 +37,18 @@
 				<enabled>true</enabled>
 			</snapshots>
 		</repository>
+
+		<repository>
+			<id>javacv</id>
+			<url>http://maven2.javacv.googlecode.com/git/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
 	</repositories>
 
 	<dependencies>
@@ -55,6 +67,36 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-imaging</artifactId>
 			<version>1.0-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.googlecode.javacv</groupId>
+			<artifactId>javacv</artifactId>
+			<version>0.6</version>
+		</dependency>
+
+		<!-- JavaCV Binaries (OS X .dylib files) - locally installed with mvn install:install-file -->
+		<dependency>
+			<groupId>com.googlecode.javacv</groupId>
+			<artifactId>javacv-0.6-macosx-x86_64</artifactId>
+			<version>0.6</version>
+		</dependency>
+
+		<!-- JOQ Amp -->
+		<dependency>
+			<groupId>org.jogamp.gluegen</groupId>
+			<artifactId>gluegen-rt-main</artifactId>
+			<version>2.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jogamp.jogl</groupId>
+			<artifactId>jogl-all-main</artifactId>
+			<version>2.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jogamp.jocl</groupId>
+			<artifactId>jocl</artifactId>
+			<version>2.0.2</version>
 		</dependency>
 
 		<dependency>
